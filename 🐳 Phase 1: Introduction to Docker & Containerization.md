@@ -53,5 +53,9 @@
          docker ps -a
       ```
 
+- ✅ Advanced
+  - Inspect container metadata:
+    - ```docker inspect <container_id>
+      ```
 
  
