@@ -20,6 +20,8 @@
 
 ---
 
+<div style="border:1px solid gray; padding:10px; border-radius:6px;">
+
 ## Containers vs VMs
 
 | Feature     | Virtual Machine (VM)        | Container                   |
@@ -29,6 +31,8 @@
 | Startup     | Minutes                     | Seconds                     |
 | Portability | Limited                     | Highly portable             |
 | Performance | Heavier                     | Lightweight                 |
+
+</div>
 
 👉 Key takeaway: Containers share the host OS kernel → much faster, lighter.
 
