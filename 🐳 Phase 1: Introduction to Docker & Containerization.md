@@ -295,3 +295,10 @@ Goal → Run an Nginx container serving a custom HTML page.
   - docker system df → shows disk usage of images, containers, and volumes.
   - docker events → monitor real-time container lifecycle events.
   - docker history <image> → shows how an image was built layer by layer.   
+
+🏠 Homework
+1. Install Docker on your OS.  
+2. Run `hello-world` and confirm installation.  
+3. Pull and run `ubuntu`, `redis`, and `httpd` containers.  
+4. Explore container lifecycle: start, stop, restart, remove.  
+5. Serve a custom HTML page using nginx container (mini project recap).  
