@@ -1,5 +1,7 @@
 🌐 Phase 4: Docker Networking & Multi-Container Apps
 
+---
+
 🎯 Objectives
 
 - By the end of this phase, you should:

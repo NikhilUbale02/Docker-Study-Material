@@ -1,5 +1,7 @@
 ⚙️ Phase 5: Docker Compose
 
+---
+
 🎯 Objectives
 
 - By the end of this phase, you should:
