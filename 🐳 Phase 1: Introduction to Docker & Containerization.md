@@ -20,19 +20,15 @@
 
 ---
 
-<div style="border:1px solid gray; padding:10px; border-radius:6px;">
-
-## Containers vs VMs
-
-| Feature     | Virtual Machine (VM)        | Container                   |
-| ----------- | --------------------------- | --------------------------- |
-| Abstraction | Hardware-level (Hypervisor) | OS-level (Docker Engine)    |
-| Size        | GBs (with full OS)          | MBs (shares host OS kernel) |
-| Startup     | Minutes                     | Seconds                     |
-| Portability | Limited                     | Highly portable             |
-| Performance | Heavier                     | Lightweight                 |
-
-</div>
+> ## Containers vs VMs
+>
+> | Feature     | Virtual Machine (VM)        | Container                   |
+> | ----------- | --------------------------- | --------------------------- |
+> | Abstraction | Hardware-level (Hypervisor) | OS-level (Docker Engine)    |
+> | Size        | GBs (with full OS)          | MBs (shares host OS kernel) |
+> | Startup     | Minutes                     | Seconds                     |
+> | Portability | Limited                     | Highly portable             |
+> | Performance | Heavier                     | Lightweight                 |
 
 👉 Key takeaway: Containers share the host OS kernel → much faster, lighter.
 
