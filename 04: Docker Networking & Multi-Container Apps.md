@@ -280,4 +280,3 @@ docker run -it --net=container:<id> nicolaka/netshoot
 - A: Use docker logs, docker inspect, ping, curl, or netshoot for tcpdump/nslookup.
 
 
-
