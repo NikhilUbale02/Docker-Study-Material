@@ -114,8 +114,48 @@
     ```bash
        docker run -d --network none nginx
     ```
-    (Container is isolated, no internet, no LAN access.)     
+    (Container is isolated, no internet, no LAN access.)
+
+  🔹 4. Overlay Network
+    - Used in multi-host Docker Swarm or Kubernetes setups.
+    - Allows containers running on different Docker hosts to communicate.
+    - Requires a key-value store (like Consul or etcd) in older Docker, but now mostly used with Swarm.
+
+    👉 Example:
+    
+    ```bash
+       docker network create -d overlay my_overlay
+    ```   
  
+  🔹 5. Macvlan Network
+    - Assigns containers a unique MAC address → they appear as physical devices on the LAN.
+
+    - Useful when containers need to be treated like real machines in the same network.
+
+    👉 Example:
+
+    ```bash
+       docker network create -d macvlan \
+       --subnet=192.168.1.0/24 \
+       --gateway=192.168.1.1 \
+       -o parent=eth0 my_macvlan
+    ```
+
+  🔹 6. Custom Bridge Networks
+
+    - Like default bridge, but user-defined.
+    - Offers better DNS-based resolution (containers can reach each other by name).
+
+    👉 Example:
+
+    ```bash
+       docker network create my_bridge
+       docker run -d --network my_bridge --name app nginx
+    ```
+
+
+
+
 💼 Mini Project: Your First Web Server
 
 Goal → Run an Nginx container serving a custom HTML page.
@@ -235,6 +275,23 @@ Goal → Run an Nginx container serving a custom HTML page.
   - Q: What is the default network mode of a container?
     A: bridge
 
- 
+  - Q: Difference between bridge and host network?
+    A: Bridge isolates containers; host shares host’s network stack (faster, less isolated).
 
-   
+  - Q: When would you use macvlan?
+    A: When containers need their own MAC/IP on the LAN (treated as physical devices).
+
+  - Q: Which network type is used in Docker Swarm?
+    A: Overlay.
+
+👉 Pro tip: If you run docker network ls, you’ll see at least:
+
+  - bridge
+  - host
+  - none
+
+🪄 Hidden Gems
+
+  - docker system df → shows disk usage of images, containers, and volumes.
+  - docker events → monitor real-time container lifecycle events.
+  - docker history <image> → shows how an image was built layer by layer.   
