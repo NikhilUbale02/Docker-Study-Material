@@ -34,28 +34,32 @@
 🧪 Examples (3 Levels)
 - ✅ Beginner
   - Check Docker version:
-    - ```docker --version
+    - ```bash
+         docker --version
          docker info
       ```
   
   - Run hello-world:
-    - ```docker run hello-world
-      ```
+    - ```bash
+         docker run hello-world```
 
 - ✅ Intermediate
   - Pull & run an image:
-    - ```docker pull nginx
+    - ```bash
+         docker pull nginx
          docker run -d -p 8080:80 nginx
       ```
 
   - View running containers:
-    - ```docker ps
+    - ```bash
+         docker ps
          docker ps -a
       ```
 
 - ✅ Advanced
   - Inspect container metadata:
-    - ```docker inspect <container_id>
+    - ```bash
+         docker inspect <container_id>
       ```
 
  
