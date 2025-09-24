@@ -393,5 +393,144 @@ docker load -i myimage.tar
 ```
 👉 Useful in air-gapped or private environments.
 
+---
 
+## 🏗 Phase 2: Docker Images & Dockerfiles – Q&A Bank
 
+---
+
+🔹 General Concepts
+
+> Q: What is a Docker image?
+- A: A read-only blueprint that contains everything needed to run an application
+(code, runtime, libraries, dependencies). Containers are created from images.
+
+> Q: How are Docker images structured?
+- A: Images are layered. Each Dockerfile instruction creates a new layer.
+Layers are stacked using a Union File System for efficiency.
+
+> Q: What is the difference between an image and a container?
+- A: Image = blueprint (static, immutable). Container = running instance of that image (dynamic, mutable).
+
+> Q: Can you modify a Docker image once created?
+- A: No, images are immutable. To change, you build a new one or commit a container to create a new image.
+
+---
+
+🔹 Dockerfile Basics
+
+> Q: What is a Dockerfile?
+- A: A text file with instructions to build a Docker image automatically.
+
+> Q: Name common Dockerfile instructions.
+- A: FROM, RUN, COPY, ADD, WORKDIR, CMD, ENTRYPOINT, ENV, EXPOSE, USER.
+
+> Q: Difference between CMD and ENTRYPOINT?
+- A:
+- CMD: provides defaults, overridable at runtime (docker run image echo "hi").
+- ENTRYPOINT: defines main process, harder to override.
+- Best practice: combine ENTRYPOINT with CMD for flexibility.
+
+> Q: Difference between COPY and ADD?
+- A:
+- COPY: only copies files/directories from host to image.
+- ADD: same as COPY + can fetch from URL or auto-extract archives.
+- Best practice: prefer COPY unless ADD features are needed.
+
+---
+
+🔹 Build Process
+
+> Q: Why is order of instructions in Dockerfile important?
+- A: Because of layer caching. If an early instruction changes, all later layers are rebuilt.
+
+> Q: How does Docker build caching work?
+- A:
+- Docker caches intermediate image layers.
+- If files/instructions don’t change, those layers are reused.
+- This speeds up rebuilds significantly.
+
+> Q: What is build context?
+- A: The directory sent to the Docker daemon during build. All files in context can be copied into the image.
+
+> Q: What is .dockerignore used for?
+- A: To exclude files from the build context (e.g., .git, node_modules).
+Reduces image size and build time.
+
+---
+
+🔹 Optimization & Best Practices
+
+> Q: Why use multi-stage builds?
+- A: To separate build and runtime environments, resulting in smaller, cleaner images.
+
+> Q: Why is Alpine commonly used?
+- A: Tiny Linux base (~5MB), fast, fewer vulnerabilities.
+
+> Q: What is scratch?
+- A: An empty base image, used for building minimal images (common in Go/C apps).
+
+> Q: How do you reduce image size?
+- A:
+- Use alpine or scratch.
+- Multi-stage builds.
+- Combine RUN commands.
+- Use .dockerignore.
+- Remove unnecessary packages.
+
+> Q: How do you reduce attack surface in Docker images?
+- A:
+- Use minimal images.
+- Avoid root user (use USER directive).
+- Pin versions (avoid latest).
+- Scan regularly with Trivy/Docker Scan.
+
+---
+
+🔹 Image Management
+
+> Q: How do you tag an image?
+- A: docker build -t user/app:1.0 .
+
+> Q: How do you push and pull images from Docker Hub?
+- A:
+- docker login
+- docker push user/app:tag
+- docker pull user/app:tag
+
+> Q: How do you inspect image metadata?
+- A: docker inspect <image>
+
+> Q: How do you see image layers?
+- A: docker history <image>
+
+> Q: How do you export/import images without Docker Hub?
+- A:
+- docker save -o myimage.tar myimage:tag
+- docker load -i myimage.tar
+
+---
+
+🔹 Advanced / Curveballs
+
+> Q: How do you build Docker images for multiple architectures?
+- A: Use buildx:
+docker buildx build --platform linux/amd64,linux/arm64 -t user/app .
+
+> Q: What is BuildKit?
+- A: Modern Docker build backend offering faster builds, better caching,
+and advanced features (e.g., mounting secrets).
+Enable with: DOCKER_BUILDKIT=1 docker build .
+
+> Q: What is an Entrypoint script?
+- A: A shell script used in ENTRYPOINT to initialize env/config before running main app.
+
+> Q: Difference between docker build --no-cache and normal build?
+- A:
+- Normal build: reuses cached layers.
+- --no-cache: rebuilds all layers from scratch.
+
+> Q: How do you scan Docker images for vulnerabilities?
+- A:
+- docker scan <image>
+- Or external tools: Trivy, Snyk.
