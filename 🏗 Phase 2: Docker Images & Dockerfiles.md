@@ -164,26 +164,26 @@ docker run -d -p 5000:5000 flask-docker
 🧠 Interview Tips:
 
 - Q: Difference between CMD and ENTRYPOINT?
-  A: CMD provides defaults (overridable at runtime). ENTRYPOINT defines the main command (harder to override).
+- A: CMD provides defaults (overridable at runtime). ENTRYPOINT defines the main command (harder to override).
 
 ---
 
 - Q: How do you reduce Docker image size?
-  A: Use smaller base images (e.g., alpine), multi-stage builds, .dockerignore, combine RUN commands.
+- A: Use smaller base images (e.g., alpine), multi-stage builds, .dockerignore, combine RUN commands.
 ---
 
 - Q: What is the difference between COPY and ADD?
-  A: COPY copies files; ADD can also fetch from URLs and auto-extract archives.
+- A: COPY copies files; ADD can also fetch from URLs and auto-extract archives.
 
 ---
 
 - Q: Why are images layered?
-  A: Layers allow caching, reuse, and efficient builds.
+- A: Layers allow caching, reuse, and efficient builds.
 
 ---
 
 - Q: How to view layers of an image?
-  A: docker history <image>
+- A: docker history <image>
 
 ---
 
