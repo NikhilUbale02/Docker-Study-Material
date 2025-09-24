@@ -191,6 +191,117 @@
 
 ---
 
+# 🐳 Extra Docker Interview Differences (Beyond Phase 1–6)
+
+---
+
+| docker run 🏃 | vs | docker start 🔄 |
+|---------------|----|-----------------|
+| Creates a new container from an image | vs | Restarts an existing, stopped container |
+| Fresh container every time | vs | Resumes with same ID, volumes, configs |
+| Example: `docker run nginx` | vs | `docker start <container_id>` |
+
+---
+
+| docker stop 🛑 | vs | docker kill 💀 |
+|----------------|----|----------------|
+| Gracefully stops container (SIGTERM → cleanup → SIGKILL) | vs | Immediately kills container (SIGKILL) |
+| Safer, gives time to shutdown | vs | Faster, abrupt termination |
+| Preferred in prod | vs | Use in emergencies |
+
+---
+
+| docker attach 🔗 | vs | docker exec 🛠️ |
+|------------------|----|-----------------|
+| Connects to the container’s **main process** | vs | Starts a new process inside container |
+| If process exits → container stops | vs | Container keeps running after exec |
+| Risky for debugging | vs | Safer for inspection/debugging |
+
+---
+
+| docker cp 📂 | vs | Volumes 📦 |
+|--------------|----|------------|
+| One-time copy files in/out of containers | vs | Persistent data mount |
+| Not dynamic, manual | vs | Mounted automatically on container start |
+| Good for quick debug | vs | Good for real apps & DBs |
+
+---
+
+| ENTRYPOINT ["binary"] 🚀 | vs | ENTRYPOINT ["/bin/sh", "-c"] 🐢 |
+|--------------------------|----|--------------------------------|
+| Executes directly, faster, no shell | vs | Runs inside shell, allows env expansion |
+| Preferred for production apps | vs | Useful for scripting/debugging |
+| Example: ENTRYPOINT ["python", "app.py"] | vs | ENTRYPOINT ["/bin/sh", "-c", "python app.py"] |
+
+---
+
+| Alpine 🏔️ | vs | Distroless 🪂 |
+|------------|----|---------------|
+| Lightweight Linux distro (~5 MB) | vs | Google’s minimal images with **no shell/package manager** |
+| Has shell & package manager (apk) | vs | No shell → more secure, smaller attack surface |
+| Easier to debug (you can exec in) | vs | Harder to debug → must rebuild if broken |
+| Common in prod | vs | Security-focused orgs prefer it |
+
+---
+
+| docker system prune 🧹 | vs | docker image prune 🗑️ |
+|------------------------|----|------------------------|
+| Cleans **everything**: unused images, containers, networks, volumes | vs | Cleans only dangling/unused images |
+| Aggressive → can free large space | vs | Safer, only image-related |
+| Use with caution in prod | vs | Safe to use regularly |
+
+---
+
+| docker history 🏗️ | vs | docker inspect 🔍 |
+|--------------------|----|-------------------|
+| Shows **layers** of image | vs | Shows **metadata** of image/container |
+| Good for debugging builds | vs | Good for runtime/env details |
+| Example: `docker history nginx` | vs | `docker inspect nginx` |
+
+---
+
+| docker commit 📝 | vs | docker build 🏗️ |
+|------------------|----|-----------------|
+| Creates new image from running container state | vs | Creates image from Dockerfile |
+| Not reproducible (manual) | vs | Reproducible, declarative |
+| Bad practice for prod | vs | Best practice always |
+
+---
+
+| docker logs 📜 | vs | docker events 📡 |
+|----------------|----|------------------|
+| Shows past logs of container stdout/stderr | vs | Streams live Docker daemon events |
+| Container-level only | vs | System-wide events (start, stop, pull) |
+| Debugging app logs | vs | Debugging infrastructure behavior |
+
+---
+
+| docker save 📦 | vs | docker export 🚛 |
+|----------------|----|-----------------|
+| Saves image (including layers, history, metadata) as tar | vs | Exports container filesystem only (no history/layers) |
+| Use for migrating images | vs | Use for snapshotting containers |
+| Example: `docker save -o image.tar nginx` | vs | `docker export container > file.tar` |
+
+---
+
+| Docker Compose 🛠️ | vs | Docker Swarm 🐝 |
+|-------------------|----|-----------------|
+| Single-host orchestration (YAML) | vs | Multi-host orchestration (cluster mode) |
+| Great for dev/test environments | vs | Good for small-scale production |
+| Limited scaling | vs | Native scaling, rolling updates |
+| `docker-compose up` | vs | `docker service create` |
+
+---
+
+| Docker Swarm 🐝 | vs | Kubernetes ☸️ |
+|-----------------|----|---------------|
+| Native Docker orchestrator, simpler | vs | Industry standard orchestrator, complex |
+| Easy to set up (one command) | vs | Complex setup (control plane, etcd) |
+| Limited ecosystem | vs | Huge ecosystem (Helm, Operators, CRDs) |
+| Good for quick clusters | vs | Good for enterprise-scale apps |
+
+---
+
 # 🐳 Docker Interview Differences (Phase 1 → Phase 6)
 
 ---
