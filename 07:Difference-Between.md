@@ -1,105 +1,203 @@
-# 🐳 Docker Interview Differences (Phase 1–6)
+# 🐳 Docker Interview Differences (Phase 1 → Phase 6)
 
 ---
 
-## Phase 1 – Basics
-Image vs Container
-- Image: Blueprint, read-only, immutable.
-- Container: Running instance of image, writable layer added.
+## 🔰 Phase 1 – Basics
 
-Container vs VM
-- Container: OS-level virtualization, lightweight, shares host kernel.
-- VM: Hardware-level virtualization, heavy, full guest OS.
+Image 🖼️ vs Container 📦
+- Image:
+- Immutable blueprint (read-only).
+- Stored on disk (Docker Hub, Registry, local).
+- Doesn’t run by itself.
+- Container:
+- Running instance of an image (read-write layer on top).
+- Lives in memory, consumes CPU/RAM.
+- Ephemeral by default → dies = gone (unless volumes used).
 
----
-
-## Phase 2 – Images & Dockerfile
-CMD vs ENTRYPOINT
-- CMD: Default command, can be overridden at runtime.
-- ENTRYPOINT: Main process, harder to override.
-- Best practice: Use ENTRYPOINT for main, CMD for args.
-
-COPY vs ADD
-- COPY: Copies files/directories from build context.
-- ADD: Same as COPY + can fetch from URLs & auto-extract archives.
-- Best practice: Prefer COPY unless ADD is required.
-
-Build Context vs .dockerignore
-- Build Context: Directory sent to Docker daemon during build.
-- .dockerignore: Excludes files from context to shrink image & speed up builds.
-
-Base Image vs Scratch
-- Base Image: Prebuilt OS/runtime layer (ubuntu, alpine, python).
-- Scratch: Empty image, used for minimal builds (common in Go/C).
+Container ⚡ vs Virtual Machine 💻
+- Container:
+- OS-level virtualization (shares host kernel).
+- Lightweight (MBs).
+- Startup in seconds.
+- VM:
+- Hardware-level virtualization (Hypervisor, full guest OS).
+- Heavy (GBs).
+- Startup in minutes.
 
 ---
 
-## Phase 3 – Volumes & Persistence
-Bind Mount vs Named Volume
-- Bind Mount: Maps host directory → container path, tied to host FS.
-- Named Volume: Managed by Docker in /var/lib/docker/volumes, portable.
+## 🏗️ Phase 2 – Images & Dockerfile
 
--v vs --mount
-- -v: Shorthand, less clear.
-- --mount: Explicit, modern, supports volume, bind, tmpfs.
+CMD 📝 vs ENTRYPOINT 🚀
+- CMD:
+- Provides default command/args.
+- Overridable at runtime (`docker run image echo hi`).
+- ENTRYPOINT:
+- Defines the "main process".
+- Not easily overridden.
+- Best practice:
+- ENTRYPOINT = app binary.
+- CMD = default args.
 
-Anonymous Volume vs Named Volume
-- Anonymous: Auto-created, random name, hard to manage.
-- Named: Explicitly created, reusable, manageable.
+COPY 📂 vs ADD 📦
+- COPY:
+- Purely copies files from host → image.
+- Predictable, recommended for most cases.
+- ADD:
+- COPY + auto-extract archives + fetch from URLs.
+- Can be “too smart” → avoid unless necessary.
 
----
+Build Context 🎒 vs .dockerignore 🚫
+- Build Context:
+- Directory sent to Docker daemon at build time.
+- Everything inside can be copied via COPY/ADD.
+- .dockerignore:
+- Excludes unnecessary stuff (e.g., `.git`, `node_modules`).
+- Keeps images slim & builds fast.
 
-## Phase 4 – Networking
-Bridge vs Host Network
-- Bridge: Default mode, isolated network, requires port mapping.
-- Host: Shares host’s network stack, no isolation, no port mapping needed.
-
-Default Bridge vs Custom Bridge
-- Default Bridge: Containers communicate only via IP.
-- Custom Bridge: Containers resolve each other by name (Docker DNS).
-
-EXPOSE vs -p (Publish)
-- EXPOSE: Documentation in Dockerfile, no actual exposure.
-- -p: Publishes container port → host port mapping.
-
-depends_on vs Healthcheck (in Compose)
-- depends_on: Controls startup order only.
-- healthcheck: Verifies readiness, needed for reliable dependency mgmt.
-
----
-
-## Phase 5 – Docker Compose
-Docker Run vs Docker Compose
-- Docker Run: CLI command, single container.
-- Docker Compose: YAML-based, multi-container definition & orchestration.
-
-Dockerfile ENV vs Compose Environment
-- ENV (Dockerfile): Sets env vars at image build/runtime.
-- environment: (Compose): Injects env vars at container runtime.
-
-docker-compose down vs docker-compose down -v
-- down: Stops containers, removes networks.
-- down -v: Also removes volumes (data lost).
+Base Image 🏗️ vs Scratch 🪣
+- Base Image:
+- Pre-configured (Ubuntu, Alpine, Python).
+- Provides OS/runtime layers.
+- Scratch:
+- Empty → true “from scratch”.
+- Used for minimal/static binaries (Go, C).
+- Zero bloat, tiny images.
 
 ---
 
-## Phase 6 – CI/CD & Production
-latest Tag vs Versioned Tag
-- latest: Ambiguous, may change unexpectedly.
-- Versioned: Explicit (e.g., app:1.0), safe for prod.
+## 💾 Phase 3 – Volumes & Persistence
 
-Docker Scan vs Trivy
-- Docker Scan: Built-in, limited scope, powered by Snyk.
-- Trivy: External, broader scanning (OS packages + libs).
+Bind Mount 🔗 vs Named Volume 📦
+- Bind Mount:
+- Maps **specific host path** → container.
+- Tight coupling with host FS.
+- Great for dev hot-reload, risky in prod.
+- Named Volume:
+- Managed by Docker in `/var/lib/docker/volumes`.
+- Host-agnostic, portable, easier to back up.
+- Preferred in production.
 
-docker exec vs Immutable Redeploy
-- docker exec: Temporary fix/debug inside running container.
-- Immutable Redeploy: Best practice, rebuild image & redeploy instead of patching.
+-v 🆚 --mount
+- `-v`:
+- Old shorthand, ambiguous syntax.
+- Example: `-v name:/data`.
+- `--mount`:
+- New, explicit syntax.
+- Example: `--mount type=volume,src=name,dst=/data`.
+- Better for clarity & scripting.
 
-docker stats vs cAdvisor/Prometheus
-- docker stats: Live metrics per container (CPU, Mem).
-- cAdvisor/Prometheus: Centralized, historical metrics, alerting.
+Anonymous Volume ❓ vs Named Volume 🏷️
+- Anonymous:
+- Auto-generated, random hash name.
+- Easy to forget → orphaned volumes.
+- Named:
+- Explicitly created.
+- Reusable & easier to manage.
 
-Public vs Private Registry
-- Public (Docker Hub): Open, rate limits apply.
-- Private (ECR, ACR, Harbor): Secure, controlled access, enterprise-ready.
+---
+
+## 🌐 Phase 4 – Networking
+
+Bridge 🌉 vs Host 🖧
+- Bridge:
+- Default mode.
+- Container gets private IP.
+- Requires `-p` to expose to host.
+- Host:
+- Container shares host network stack.
+- No port mapping needed.
+- Less isolation, higher perf.
+
+Default Bridge 🛤️ vs Custom Bridge 🛠️
+- Default Bridge:
+- Containers can’t resolve each other by name (IP only).
+- Custom Bridge:
+- Embedded DNS → containers resolve each other by **name**.
+- Recommended for multi-container apps.
+
+EXPOSE 🚪 vs -p 🔌
+- EXPOSE:
+- Metadata/documentation in Dockerfile.
+- Doesn’t actually publish ports.
+- -p:
+- Explicitly maps host:container ports.
+- Required for external access.
+
+depends_on ⏳ vs healthcheck ❤️
+- depends_on:
+- Only controls startup order.
+- Does NOT wait for service readiness.
+- healthcheck:
+- Defines readiness probes.
+- Works with restart policies & service deps.
+
+---
+
+## ⚙️ Phase 5 – Docker Compose
+
+Docker Run 🏃 vs Docker Compose 🛠️
+- docker run:
+- CLI command, one container at a time.
+- Lots of flags, manual networking.
+- Docker Compose:
+- YAML config (infra as code).
+- Spins up multi-container stacks with one command.
+- Auto-handles networks & volumes.
+
+Dockerfile ENV 🌍 vs Compose environment 📜
+- ENV (Dockerfile):
+- Defines environment variables baked into the image.
+- Persistent across runs unless overridden.
+- environment (Compose):
+- Injects runtime env vars.
+- Can use `.env` files → keeps secrets/config separate.
+
+docker-compose down ⚡ vs docker-compose down -v 💣
+- down:
+- Stops containers & removes networks.
+- Volumes persist.
+- down -v:
+- Also nukes volumes → **data gone**.
+
+---
+
+## 🚀 Phase 6 – CI/CD & Production
+
+latest 🆚 versioned tags 🔖
+- latest:
+- Floating pointer, can change anytime.
+- Dangerous → unpredictable builds.
+- versioned tags:
+- Explicit (`app:1.0`, `app:commit-sha`).
+- Safe, reproducible, traceable.
+
+Docker Scan 🔍 vs Trivy 🛡️
+- Docker Scan:
+- Built-in (powered by Snyk).
+- Quick checks, limited ecosystem.
+- Trivy:
+- Rich scanning (OS pkgs + libs).
+- Open-source, widely used in CI/CD.
+
+docker exec 🛠️ vs Immutable Redeploy 🔄
+- exec:
+- Debug/fix inside running container.
+- Temporary, not best practice in prod.
+- Immutable redeploy:
+- Proper way → rebuild image & redeploy.
+- Keeps infra reproducible.
+
+docker stats 📊 vs cAdvisor/Prometheus 📈
+- docker stats:
+- Real-time resource usage per container (CLI).
+- cAdvisor/Prometheus:
+- Full observability → metrics, history, alerting.
+- Used in production monitoring.
+
+Public Registry 🌍 vs Private Registry 🔐
+- Public (Docker Hub):
+- Open, subject to rate limits.
+- Private (ECR, ACR, Harbor, Quay):
+- Enterprise-grade, secure, integrated with cloud IAM.
+- Control access & compliance.
