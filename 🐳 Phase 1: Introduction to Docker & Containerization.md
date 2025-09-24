@@ -39,7 +39,8 @@
       ```
   
   - Run hello-world:
-    - ```docker run hello-world```
+    - ```docker run hello-world
+      ```
 
 - ✅ Intermediate
   - Pull & run an image:
