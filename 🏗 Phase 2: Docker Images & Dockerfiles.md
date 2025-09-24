@@ -1,5 +1,7 @@
 🏗 Phase 2: Docker Images & Dockerfiles
 
+---
+
 🎯 Objectives
 - By the end of this phase, you should:
 - Understand what Docker images are and how they’re built.
@@ -8,12 +10,16 @@
 - Push/pull images from Docker Hub.
 - Understand best practices for image management.
 
+---
+
 📘 Concepts
 🔹 Docker Images
 - A Docker Image is a read-only blueprint for creating containers.
 - Built in layers (each instruction in a Dockerfile adds a new layer).
 - Images are immutable → if you need changes, you build a new one.
 - Union File System is used to stack layers efficiently.
+
+---
 
 🔹 Dockerfile
 - A Dockerfile is a text file with instructions to build an image.
@@ -28,22 +34,32 @@ ENTRYPOINT → main command (not overridden easily)
 EXPOSE → document ports used (not mandatory for mapping)
 ENV → set environment variables
 ```
+
+---
+
 🔹 Build Context & .dockerignore
 - Build context: directory sent to Docker daemon during build.
 - .dockerignore: exclude unnecessary files (e.g., .git, node_modules).
+
+---
 
 🔹 Image Management
 - docker build → build image from Dockerfile.
 - docker tag → give image a friendly name & version.
 - docker push / docker pull → upload/download images from registry.
 
+---
+
 🧪 Examples (3 Levels)
+
+---
 
 ✅ Beginner
 - 1.Create a simple Python script app.py:
 ```bash
 print("Hello from Docker!")
 ```
+---
 - 2.Write Dockerfile:
 ```bash
 FROM python:3.9-slim
@@ -51,11 +67,13 @@ COPY app.py /app/
 WORKDIR /app
 CMD ["python", "app.py"]
 ```
+---
 - 3.Build & run:
 ```bash
 docker build -t hello-python .
 docker run hello-python
 ```
+---
 
 ✅ Intermediate
 - 1.Add environment variables and install dependencies:
@@ -69,11 +87,13 @@ ENV PORT=3000
 EXPOSE 3000
 CMD ["npm", "start"]
 ```
+---
 - 2.Build & run with port mapping:
 ```bash
 docker build -t my-node-app .
 docker run -d -p 3000:3000 my-node-app
 ```
+---
 
 ✅ Advanced
 Multi-stage build for Go app (saves image size):
@@ -93,7 +113,11 @@ CMD ["./myapp"]
 
 👉 Produces a very small final image.
 
+---
+
 💼 Mini Project: Dockerize a Flask Web App
+
+---
 
 - 1.Create app.py:
 ```bash  
@@ -107,6 +131,7 @@ def hello():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 ```
+---
 
 - 2.Dockerfile
 ```bash
@@ -118,11 +143,13 @@ COPY . .
 EXPOSE 5000
 CMD ["python", "app.py"]
 ```
+---
 
 - 3.requirements.txt
 ```bash
 flask
 ```
+---
 
 - 4.Build & Run:
 ```bash
@@ -132,22 +159,33 @@ docker run -d -p 5000:5000 flask-docker
 
 👉 Visit http://localhost:5000
 
+---
+
 🧠 Interview Tips:
 
 - Q: Difference between CMD and ENTRYPOINT?
   A: CMD provides defaults (overridable at runtime). ENTRYPOINT defines the main command (harder to override).
 
+---
+
 - Q: How do you reduce Docker image size?
   A: Use smaller base images (e.g., alpine), multi-stage builds, .dockerignore, combine RUN commands.
+---
 
 - Q: What is the difference between COPY and ADD?
   A: COPY copies files; ADD can also fetch from URLs and auto-extract archives.
 
+---
+
 - Q: Why are images layered?
   A: Layers allow caching, reuse, and efficient builds.
 
+---
+
 - Q: How to view layers of an image?
   A: docker history <image>
+
+---
 
 🪄 Hidden Gems:
 
@@ -157,6 +195,8 @@ docker run -d -p 5000:5000 flask-docker
 - Always pin base images (python:3.9-slim instead of python:latest).
 - Use .dockerignore to avoid bloated builds.
 
+---
+
 🏠 Homework (5 Tasks):
 
 - Write a Dockerfile for a simple Node.js app and run it.
@@ -165,7 +205,11 @@ docker run -d -p 5000:5000 flask-docker
 - Push your custom image to Docker Hub.
 - Experiment with CMD vs ENTRYPOINT (e.g., overriding runtime args).
 
+---
+
 ## 🏗 Phase 2 – Missing Pieces / Deep Dives
+
+---
 
 🔹 1. Image Caching & Layer Reuse
 
@@ -183,6 +227,8 @@ COPY . .
 
 If code changes but package.json doesn’t → dependencies stay cached.
 
+---
+
 🔹 2. Difference Between Base Image & Scratch
 
 - Base Image = like ubuntu, alpine, python:3.9 (already has OS/tools).
@@ -196,10 +242,14 @@ COPY hello /
 CMD ["/hello"]
 ```
 
+---
+
 🔹 3. Ephemeral Containers & Data
 
 - Containers are stateless → data disappears if container dies.
 - Reinforces why volumes (covered in Phase 3) are necessary.
+
+---
 
 🔹 4. Multi-Arch Images
 
@@ -209,6 +259,8 @@ CMD ["/hello"]
 ```bash
 docker buildx build --platform linux/arm64,linux/amd64 -t user/app .
 ```
+
+---
 
 🔹 5. Entrypoint Scripts
 
@@ -223,6 +275,8 @@ ENTRYPOINT ["entrypoint.sh"]
 CMD ["python", "app.py"]
 ```
 
+---
+
 🔹 6. Docker Image Security
 
 - Don’t run apps as root inside containers.
@@ -234,11 +288,15 @@ USER appuser
 ```
 - Scan images with docker scan or Trivy.
 
+---
+
 🔹 7. Inspecting & Troubleshooting Images
 
 - docker history <image> → see all layers.
 - docker inspect <image> → metadata, env vars, architecture.
 - docker save & docker load → export/import images as tarballs (air-gapped environments).
+
+---
 
 🔹 8. BuildKit (Modern Docker Builds)
 
@@ -249,7 +307,11 @@ USER appuser
 DOCKER_BUILDKIT=1 docker build .
 ```
 
+---
+
 🧠 Extra Interview Q&A
+
+---
 
 Q: What is the difference between COPY and ADD?
 A: 
