@@ -163,26 +163,26 @@ docker run -d -p 5000:5000 flask-docker
 
 🧠 Interview Tips:
 
-- Q: Difference between CMD and ENTRYPOINT?
+> Q: Difference between CMD and ENTRYPOINT?
 - A: CMD provides defaults (overridable at runtime). ENTRYPOINT defines the main command (harder to override).
 
 ---
 
-- Q: How do you reduce Docker image size?
+> Q: How do you reduce Docker image size?
 - A: Use smaller base images (e.g., alpine), multi-stage builds, .dockerignore, combine RUN commands.
 ---
 
-- Q: What is the difference between COPY and ADD?
+> Q: What is the difference between COPY and ADD?
 - A: COPY copies files; ADD can also fetch from URLs and auto-extract archives.
 
 ---
 
-- Q: Why are images layered?
+> Q: Why are images layered?
 - A: Layers allow caching, reuse, and efficient builds.
 
 ---
 
-- Q: How to view layers of an image?
+> Q: How to view layers of an image?
 - A: docker history <image>
 
 ---
@@ -313,7 +313,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: What is the difference between COPY and ADD?
+> Q: What is the difference between COPY and ADD?
 - A: 
 - COPY → strictly copies files/directories from host into the image.
 - ADD → does everything COPY does, but also:
@@ -323,7 +323,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: Why is order of Dockerfile instructions important?
+> Q: Why is order of Dockerfile instructions important?
 - A:
 - Each Dockerfile instruction creates a new image layer.
 - Docker caches layers → if earlier instructions don’t change, they’re reused.
@@ -332,7 +332,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: How does Docker build caching work?
+> Q: How does Docker build caching work?
 - A:
 - When building an image, Docker checks if a layer already exists in cache.
 - If the instruction + context (files) haven’t changed, that layer is reused.
@@ -341,7 +341,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: What is scratch?
+> Q: What is scratch?
 - A:
 - `scratch` is an empty image provided by Docker.
 - Used as a starting point for minimal images (no OS, no libraries).
@@ -350,7 +350,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: Why is Alpine often used in Docker images?
+> Q: Why is Alpine often used in Docker images?
 - A:
 - Tiny Linux distribution (~5 MB).
 - Secure and minimal → fewer vulnerabilities.
@@ -359,7 +359,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: How do you reduce attack surface in Docker images?
+> Q: How do you reduce attack surface in Docker images?
 - A:
 - Use minimal base images (e.g., alpine, distroless).
 - Avoid running as root → use USER directive.
@@ -369,7 +369,7 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-- Q: How can you build Docker images for multiple architectures?
+> Q: How can you build Docker images for multiple architectures?
 - A:
 - Use `docker buildx` for cross-platform builds.
 - Example:
@@ -380,7 +380,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t user/app .
 
 ---
 
-- Q: How to export/import Docker images without Docker Hub?
+> Q: How to export/import Docker images without Docker Hub?
 - A:
 - Export image:
 ```bash
@@ -392,3 +392,6 @@ docker save -o myimage.tar myimage:tag
 docker load -i myimage.tar
 ```
 👉 Useful in air-gapped or private environments.
+
+
+
