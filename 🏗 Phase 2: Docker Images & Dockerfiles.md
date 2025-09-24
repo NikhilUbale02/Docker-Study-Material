@@ -313,8 +313,8 @@ DOCKER_BUILDKIT=1 docker build .
 
 ---
 
-Q: What is the difference between COPY and ADD?
-A: 
+- Q: What is the difference between COPY and ADD?
+- A: 
 - COPY → strictly copies files/directories from host into the image.
 - ADD → does everything COPY does, but also:
 - Can extract compressed archives (e.g., .tar.gz).
@@ -323,8 +323,8 @@ A:
 
 ---
 
-Q: Why is order of Dockerfile instructions important?
-A:
+- Q: Why is order of Dockerfile instructions important?
+- A:
 - Each Dockerfile instruction creates a new image layer.
 - Docker caches layers → if earlier instructions don’t change, they’re reused.
 - Reordering can invalidate cache and cause longer builds.
@@ -332,8 +332,8 @@ A:
 
 ---
 
-Q: How does Docker build caching work?
-A:
+- Q: How does Docker build caching work?
+- A:
 - When building an image, Docker checks if a layer already exists in cache.
 - If the instruction + context (files) haven’t changed, that layer is reused.
 - If one layer changes, all subsequent layers must be rebuilt.
@@ -341,8 +341,8 @@ A:
 
 ---
 
-Q: What is scratch?
-A:
+- Q: What is scratch?
+- A:
 - `scratch` is an empty image provided by Docker.
 - Used as a starting point for minimal images (no OS, no libraries).
 - Often used with statically compiled binaries (Go, C).
@@ -350,8 +350,8 @@ A:
 
 ---
 
-Q: Why is Alpine often used in Docker images?
-A:
+- Q: Why is Alpine often used in Docker images?
+- A:
 - Tiny Linux distribution (~5 MB).
 - Secure and minimal → fewer vulnerabilities.
 - Faster downloads, reduced attack surface.
@@ -359,8 +359,8 @@ A:
 
 ---
 
-Q: How do you reduce attack surface in Docker images?
-A:
+- Q: How do you reduce attack surface in Docker images?
+- A:
 - Use minimal base images (e.g., alpine, distroless).
 - Avoid running as root → use USER directive.
 - Remove unnecessary tools/packages.
@@ -369,20 +369,26 @@ A:
 
 ---
 
-Q: How can you build Docker images for multiple architectures?
-A:
+- Q: How can you build Docker images for multiple architectures?
+- A:
 - Use `docker buildx` for cross-platform builds.
 - Example:
+```bash
 docker buildx build --platform linux/amd64,linux/arm64 -t user/app .
+```
 - Pushes a manifest list so the correct image is pulled per architecture.
 
 ---
 
-Q: How to export/import Docker images without Docker Hub?
-A:
+- Q: How to export/import Docker images without Docker Hub?
+- A:
 - Export image:
+```bash
 docker save -o myimage.tar myimage:tag
+```
 - Transfer file to another machine.
 - Import image:
+```bash
 docker load -i myimage.tar
+```
 👉 Useful in air-gapped or private environments.
