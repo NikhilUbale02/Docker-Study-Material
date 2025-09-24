@@ -161,7 +161,7 @@ docker run -v myvol:/data:ro nginx
 
 ---
 
-💾 Phase 3 – Missing Pieces / Deep Dives
+## 💾 Phase 3 – Missing Pieces / Deep Dives
 
 ---
 
