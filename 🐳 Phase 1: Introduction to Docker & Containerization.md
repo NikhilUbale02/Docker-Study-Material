@@ -14,7 +14,8 @@
   - Think of it as a shipping container for your app → it contains code, runtime, libraries, and configs in one box.
   - Ensures consistency across environments (dev, test, prod).
 
-- Containers vs VMs
+## Containers vs VMs
+
 | Feature     | Virtual Machine (VM)        | Container                   |
 | ----------- | --------------------------- | --------------------------- |
 | Abstraction | Hardware-level (Hypervisor) | OS-level (Docker Engine)    |
