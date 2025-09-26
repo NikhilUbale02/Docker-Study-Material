@@ -4,20 +4,22 @@
 
 🎯 Objectives
 - By the end of this phase, you should:
+```bash
 - Understand what containers are and why Docker is used in DevOps.
 - Differentiate VMs vs Containers.
 - Learn Docker architecture (Client, Daemon, Registry, Images, Containers).
 - Install Docker and run your first container.
 - Explore container lifecycle basics.
-
+```
 ---
 
 📘 Concepts
 - What is Docker?
+```bash
 - Docker is a containerization platform that packages applications and their      dependencies into lightweight, portable units called containers.
 - Think of it as a shipping container for your app → it contains code, runtime, libraries, and configs in one box.
 - Ensures consistency across environments (dev, test, prod).
-
+```
 ---
 
 > ## Containers vs VMs
@@ -35,12 +37,13 @@
 ---
 
 - Docker Architecture
+```bash
 - Docker Client (docker CLI): You interact with it (docker run, docker ps).
 - Docker Daemon (dockerd): Background service managing containers.
 - Docker Registry: Where images live (e.g., Docker Hub, private registry).
 - Docker Image: Blueprint (immutable).
 - Docker Container: Running instance of an image (mutable).
-
+```
 ---
 
 🧪 Examples (3 Levels)
@@ -98,10 +101,11 @@
 ---
 
 🔹 1. Bridge Network (default)
+```bash
 - Default driver for containers if you don’t specify one.
 - Containers on the same bridge can talk to each other using container names.
 - Communication with external world requires port mapping (-p).
-
+```
 👉 Example:
 
 ```bash
@@ -113,10 +117,11 @@ docker network inspect bridge
 ---
 
 🔹 2. Host Network
+```bash
 - Removes the network isolation between container and host.
 - Container shares the host’s network stack → same IP as host.
 - No port mapping needed.
-
+```
 👉 Example:
 
 ```bash
@@ -128,9 +133,10 @@ docker run -d --network host nginx
 ---
 
 🔹 3. None Network
+```bash
 - Container has no networking.
 - Useful for security-restricted or testing cases.
-
+```
 👉 Example:
 
 ```bash
@@ -141,10 +147,11 @@ docker run -d --network none nginx
 ---
 
 🔹 4. Overlay Network
+```
 - Used in multi-host Docker Swarm or Kubernetes setups.
 - Allows containers running on different Docker hosts to communicate.
 - Requires a key-value store (like Consul or etcd) in older Docker, but now mostly used with Swarm.
-
+```
 👉 Example:
 
 ```bash
@@ -154,10 +161,11 @@ docker network create -d overlay my_overlay
 ---
 
 🔹 5. Macvlan Network
+```bash
 - Assigns containers a unique MAC address → they appear as physical devices on the LAN.
 
 - Useful when containers need to be treated like real machines in the same network.
-
+```
 👉 Example:
 
 ```bash
@@ -170,10 +178,10 @@ docker network create -d macvlan \
 ---
 
 🔹 6. Custom Bridge Networks
-
+```bash
 - Like default bridge, but user-defined.
 - Offers better DNS-based resolution (containers can reach each other by name).
-
+```
 👉 Example:
 
 ```bash
@@ -206,6 +214,7 @@ docker rm <container_id>
 ```
 ---
 
+```bash
 🧠 Interview Tips
 
 ---
@@ -326,6 +335,7 @@ _ A: docker history <image>
 - A: Overlay.
 
 ---
+```
 
 👉 Pro tip: If you run docker network ls, you’ll see at least:
 
